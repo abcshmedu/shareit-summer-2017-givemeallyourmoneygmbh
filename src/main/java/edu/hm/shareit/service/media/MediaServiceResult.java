@@ -1,4 +1,5 @@
 package edu.hm.shareit.service.media;
+import javax.ws.rs.core.Response.Status;
 
 /**
  * Organization Hochschule Muenchen FK07
@@ -12,7 +13,45 @@ package edu.hm.shareit.service.media;
 
 public enum MediaServiceResult {
 
-    OK;
+    OK (200,Status.OK,""),
+    ISBN_INVALID (400,Status.BAD_REQUEST,"ISBN nicht angegeben oder ungueltig"),
+    ISBN_DUPLICATE (400,Status.BAD_REQUEST,"ISBN bereits vorhanden"),
+    DATA_INVALIDE (400,Status.BAD_REQUEST,"Autor oder Title ungueltig"),
+    ISBN_NOTFOUND (404,Status.BAD_REQUEST,"ISBN nicht gefunden"),
+    ISBN_CONFLICT (400,Status.BAD_REQUEST,"ISBN Konflikt")
+    ;
 
+
+    private final String detail;
+    private final Status status;
+    private final int code;
+
+
+    MediaServiceResult(int code, Status status, String detail) {
+        this.code = code;
+        this.status = status;
+        this.detail = detail;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    @Override
+    public String toString() {
+        return "MediaServiceResult{" +
+                "message='" + detail + '\'' +
+                ", status=" + status +
+                ", code=" + code +
+                "} " + super.toString();
+    }
 }
 
