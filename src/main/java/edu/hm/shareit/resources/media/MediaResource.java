@@ -24,7 +24,7 @@ import javax.ws.rs.core.Response;
 public class MediaResource {
 
 
-    MediaService mediaService = new MediaServiceImpl();
+    private MediaService mediaService = new MediaServiceImpl();
 
 
     /**
@@ -124,7 +124,6 @@ public class MediaResource {
     @PUT
     @Produces("application/json")
     @Consumes("application/json")
-    //public Response updateBook(Book book){
     public Response updateBook(@PathParam("isbn") String isbn, Book book){
 
         Response response;
@@ -133,26 +132,6 @@ public class MediaResource {
 
             MediaServiceResult result =  mediaService.updateBook(isbn,book);
             response = getMediaResponse(result);
-
-            /*Hier oder zum service auslagern?
-            //fals aulagern muss das Interface MediaService + MediaServiceImpl angepasst werden
-            if(isbn.equals(book.getIsbn())){
-
-                MediaServiceResult result =  mediaService.updateBook(book);
-                response = getMediaResponse(result);
-            }
-            else{
-                org.json.JSONObject jsonObject = new org.json.JSONObject();
-                jsonObject.put("Code", MediaServiceResult.ISBN_CONFLICT);
-                jsonObject.put("detail", MediaServiceResult.ISBN_CONFLICT.getDetail());
-                jsonObject.toString();
-
-                response = Response
-                        .status(MediaServiceResult.ISBN_CONFLICT.getStatus())
-                        .entity(jsonObject)
-                        .build();
-            }
-            */
 
         }
         catch(Exception exception){

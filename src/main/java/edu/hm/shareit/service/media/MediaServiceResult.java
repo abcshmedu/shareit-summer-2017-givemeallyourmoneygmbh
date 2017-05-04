@@ -16,7 +16,7 @@ public enum MediaServiceResult {
     OK (200,Status.OK,""),
     ISBN_INVALID (400,Status.BAD_REQUEST,"ISBN nicht angegeben oder ungueltig"),
     ISBN_DUPLICATE (400,Status.BAD_REQUEST,"ISBN bereits vorhanden"),
-    DATA_INVALIDE (400,Status.BAD_REQUEST,"Autor oder Title ungueltig"),
+    DATA_INVALID(400,Status.BAD_REQUEST,"Autor oder Title ungueltig"),
     ISBN_NOTFOUND (404,Status.BAD_REQUEST,"ISBN nicht gefunden"),
     ISBN_CONFLICT (400,Status.BAD_REQUEST,"ISBN Konflikt")
     ;

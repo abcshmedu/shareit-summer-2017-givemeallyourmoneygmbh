@@ -11,8 +11,8 @@ package edu.hm.shareit.model.media;
  */
 public class Book extends Medium{
 
-    private String auther;
-    private String isbn;
+    private String author;
+    private String isbn10;
 
 
 
@@ -20,18 +20,19 @@ public class Book extends Medium{
         super("");
     }
 
-    public Book(String title, String auther, String isbn) {
+    public Book(String title, String author, String isbn10) {
         super(title);
-        this.auther = auther;
-        this.isbn = isbn;
+
+        this.author = author.trim();
+        this.isbn10 = isbn10.trim();
     }
 
-    public String getAuther() {
-        return auther;
+    public String getAuthor() {
+        return author;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public String getIsbn10() {
+        return isbn10;
     }
 
     @Override
@@ -42,24 +43,24 @@ public class Book extends Medium{
 
         Book book = (Book) o;
 
-        if (auther != null ? !auther.equals(book.auther) : book.auther != null) return false;
-        return isbn != null ? isbn.equals(book.isbn) : book.isbn == null;
+        if (author != null ? !author.equals(book.author) : book.author != null) return false;
+        return isbn10 != null ? isbn10.equals(book.isbn10) : book.isbn10 == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (auther != null ? auther.hashCode() : 0);
-        result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (isbn10 != null ? isbn10.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "auther='" + auther + '\'' +
-                ", isbn='" + isbn + '\'' +
+                "author='" + author + '\'' +
+                ", isbn10='" + isbn10 + '\'' +
                 "} " + super.toString();
     }
 }

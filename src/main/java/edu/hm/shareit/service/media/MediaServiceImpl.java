@@ -20,7 +20,8 @@ import java.util.Map;
 public class MediaServiceImpl implements MediaService {
 
 
-    Map<String, Medium> mediaMap;
+    //in der naechsten Aufgabe auslagern nach Persistence Layer
+    private Map<String, Medium> mediaMap;
 
 
     public MediaServiceImpl() {
@@ -44,20 +45,24 @@ public class MediaServiceImpl implements MediaService {
     public MediaServiceResult addBook(Book book) {
 
         //no ISBN or invalide
-        if(book.getIsbn().isEmpty() || !valideISBN(book.getIsbn())){
+        if(book.getIsbn10() == null || book.getIsbn10().isEmpty() || !validISBN(book.getIsbn10())){
             return MediaServiceResult.ISBN_INVALID;
         }
 
         //ISBN duplicate
-        if(mediaMap.containsKey(book.getIsbn())){
+        if(mediaMap.containsKey(book.getIsbn10())){
             return MediaServiceResult.ISBN_DUPLICATE;
         }
 
 
         //no auther or Title
-        if(book.getAuther().isEmpty() || book.getTitle().isEmpty()){
-            return MediaServiceResult.DATA_INVALIDE;
+        if(book.getAuthor().isEmpty() || book.getTitle().isEmpty()){
+            return MediaServiceResult.DATA_INVALID;
         }
+
+
+        //change this to Persistence Layer
+        final Medium medium = mediaMap.put(book.getIsbn10(), book);
 
         return MediaServiceResult.OK;
     }
@@ -110,26 +115,30 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public MediaServiceResult updateBook(String isbn, Book book) {
 
-        //no ISBN or invalide
-        if(book.getIsbn().isEmpty() || !valideISBN(book.getIsbn())){
+        //no ISBN or invalid
+        if(book.getIsbn10()==null || book.getIsbn10().isEmpty() || !validISBN(book.getIsbn10())){
             return MediaServiceResult.ISBN_INVALID;
         }
 
 
-        if(isbn.equals(book.getIsbn())){
+        if(isbn.equals(book.getIsbn10())){
             return MediaServiceResult.ISBN_CONFLICT;
         }
 
         //ISBN
-        if(!mediaMap.containsKey(book.getIsbn())){
+        if(!mediaMap.containsKey(book.getIsbn10())){
             return MediaServiceResult.ISBN_NOTFOUND;
         }
 
 
-        //no auther or Title
-        if(book.getAuther().isEmpty() || book.getTitle().isEmpty()){
-            return MediaServiceResult.DATA_INVALIDE;
+        //no author or Title
+        if(book.getAuthor().isEmpty() || book.getTitle().isEmpty()){
+            return MediaServiceResult.DATA_INVALID;
         }
+
+
+        //change this to Persistence Layer
+        mediaMap.replace(book.getIsbn10(),book);
 
         return MediaServiceResult.OK;
     }
@@ -144,10 +153,10 @@ public class MediaServiceImpl implements MediaService {
      * @param isbn
      * @return true wenn gueltig, false wenn nicht gueltig
      */
-    private boolean valideISBN(String isbn) {
+    private boolean validISBN(String isbn) {
 
         //https://de.wikipedia.org/wiki/Internationale_Standardbuchnummer
-        //TODO: implement validate ISBN-10 + validate ISBN-13
+        //TODO: implement validate ISBN-10 //  ISBN-13 derzeit nicht supported xD
 
         return true;
     }

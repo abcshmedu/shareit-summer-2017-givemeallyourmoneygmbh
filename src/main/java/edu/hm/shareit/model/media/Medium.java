@@ -14,7 +14,7 @@ public class Medium {
 
 
     public Medium(String title) {
-        this.title = title;
+        this.title = title.trim();
     }
 
     public String getTitle() {
