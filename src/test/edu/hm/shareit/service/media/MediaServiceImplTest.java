@@ -14,9 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Organization Hochschule Muenchen FK07
@@ -205,6 +203,9 @@ public class MediaServiceImplTest {
         final Book book = (Book) service.getBook("9783596282227");
         assertEquals("9783596282227", book.getIsbn());
 
+
+        assertNull(service.getBook("9783741600500"));
+
     }
 
 
@@ -328,6 +329,7 @@ public class MediaServiceImplTest {
                 {"B01M72AYG3",new Disc(null, "Scott Derrickson ", 12 , "Doctor Strange" ), MediaServiceResult.BARCODE_INVALID},
 
                 {"B01M72AYG3",new Disc("B01M72AYG3", null, 12 , "Doctor Strange" ), MediaServiceResult.DATA_INVALID},
+                {"B01FEK81QA",new Disc("B01FEK81QA", null, 12 , "Doctor Strange" ), MediaServiceResult.BARCODE_NOTFOUND},
 
 
         });
@@ -347,9 +349,12 @@ public class MediaServiceImplTest {
 
     @Test
     public void testGetDisc(){
-        final Medium result = service.getDisc("B01M72AYG3");
+        Medium result = service.getDisc("B01M72AYG3");
         assertNotNull(result);
         assertEquals(disc.getTitle(),result.getTitle());
+
+        result = service.getDisc("B01N4ECRNP");
+        assertNull(result);
     }
 
 
