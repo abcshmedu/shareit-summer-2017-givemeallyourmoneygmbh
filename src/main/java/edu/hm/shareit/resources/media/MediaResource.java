@@ -1,6 +1,7 @@
 package edu.hm.shareit.resources.media;
 
 import edu.hm.shareit.model.media.Book;
+import edu.hm.shareit.model.media.Disc;
 import edu.hm.shareit.model.media.Medium;
 import edu.hm.shareit.service.media.MediaService;
 import edu.hm.shareit.service.media.MediaServiceImpl;
@@ -123,7 +124,7 @@ public class MediaResource {
      *
      * @param book book.
      * @param isbn isbn13.
-     * @return Returns ok if no error occurred or the errorcode and details.
+     * @return Returns the book or null if not found.
      */
     @Path("/books/{isbn}")
     @PUT
@@ -145,6 +146,83 @@ public class MediaResource {
         return response;
 
 
+    }
+
+    /**
+     * Returns all available discs.
+     * @return Json representation of an array of discs.
+     */
+    @GET
+    @Path("/discs")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDiscs()  {
+        Response response;
+
+        try {
+            Medium[] result = mediaService.getDiscs();
+            response = Response.ok(result).build();
+
+        } catch (Exception exception) {
+            response = Response.serverError().build();
+        }
+
+        return response;
+
+    }
+
+
+    /**
+     * Returns a disc by given barcode.
+     * @param barcode Barcode of the Disc
+     * @return Returns the book or null if not found as JSON.
+     */
+    @GET
+    @Path("/discs/{barcode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDisc(@PathParam("barcode")String barcode)  {
+        Response response;
+
+        try {
+            Medium result = mediaService.getDisc(barcode);
+            response = Response.ok(result).build();
+
+        } catch (Exception exception) {
+            response = Response.serverError().build();
+        }
+
+
+        return response;
+    }
+
+
+    /**
+     * Update an existing disc.
+     * possible Errors:
+     * BARCODE_NOTFOUND - a disc with the given barcode doesn't exist.
+     * BARCODE_INVALID - isbn is not a valid barcode string.
+     * BARCODE_CONFLICT - not matching barcode strings between the given disc and the new data.
+     * DATA_INVALID - missing director or title or fsk
+     *
+     * @param disc disc.
+     * @param barcode barcode.
+     * @return Returns the book or null if not found.
+     */
+    @PUT
+    @Path("/discs/{barcode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateDisc(@PathParam("barcode")String barcode, Disc disc)  {
+        Response response;
+
+        try {
+
+            MediaServiceResult result = mediaService.updateDisc(barcode, disc);
+            response = getMediaResponse(result);
+
+        } catch (Exception exception) {
+            response = Response.serverError().build();
+        }
+
+        return response;
     }
 
     /**
@@ -174,5 +252,6 @@ public class MediaResource {
         return response;
     }
 
-    //TODO: discs
+
+
 }

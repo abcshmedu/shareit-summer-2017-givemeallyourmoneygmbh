@@ -22,18 +22,17 @@ public class MediaServiceImpl implements MediaService {
 
 
     //in der naechsten Aufgabe auslagern nach Persistence Layer
-    private Map<String, Medium> mediaMap;
+    private Map<String, Medium> bookMap;
+
+    private Map<String, Medium> discMap;
 
     /**
      * Default Constructor.
      */
     public MediaServiceImpl() {
 
-        mediaMap = new HashMap<>();
-
-
-
-
+        bookMap = new HashMap<>();
+        discMap = new HashMap<>();
 
     }
 
@@ -47,7 +46,7 @@ public class MediaServiceImpl implements MediaService {
         }
 
         //ISBN duplicate
-        if (mediaMap.containsKey(book.getIsbn())) {
+        if (bookMap.containsKey(book.getIsbn())) {
             return MediaServiceResult.ISBN_DUPLICATE;
         }
 
@@ -59,21 +58,41 @@ public class MediaServiceImpl implements MediaService {
 
 
         //change this to Persistence Layer
-        final Medium medium = mediaMap.put(book.getIsbn(), book);
+        final Medium medium = bookMap.put(book.getIsbn(), book);
 
         return MediaServiceResult.OK;
     }
 
     @Override
     public MediaServiceResult addDisc(Disc disc) {
-        return null;
+        //no Barcode or invalid
+        //barcode check?
+        if (disc.getBarcode() == null || disc.getBarcode().isEmpty()) {
+            return MediaServiceResult.BARCODE_INVALID;
+        }
+
+        //barcode duplicate
+        if (discMap.containsKey(disc.getBarcode())) {
+            return MediaServiceResult.BARCODE_DUPLICATE;
+        }
+
+
+        //no director or Title etc
+        if (disc.getDirector() == null || disc.getDirector().isEmpty() || disc.getTitle() == null || disc.getTitle().isEmpty() ||  disc.getFsk() <0) {
+            return MediaServiceResult.DATA_INVALID;
+        }
+
+        //change this to Persistence Layer
+        final Medium medium = discMap.put(disc.getBarcode(), disc);
+
+        return MediaServiceResult.OK;
     }
 
 
     @Override
     public Medium getBook(String isbn) {
-        if (mediaMap.containsKey(isbn)) {
-            return mediaMap.get(isbn);
+        if (bookMap.containsKey(isbn)) {
+            return bookMap.get(isbn);
         }
 
         return null;
@@ -81,14 +100,25 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public Medium[] getBooks() {
-        final Medium[] media = mediaMap.values().toArray(new Medium[0]);
+        final Medium[] media = bookMap.values().toArray(new Medium[0]);
 
         return media;
     }
 
     @Override
     public Medium[] getDiscs() {
-        return new Medium[0];
+        final Medium[] media = discMap.values().toArray(new Medium[0]);
+
+        return media;
+    }
+
+    @Override
+    public Medium getDisc(String barcode) {
+        if (discMap.containsKey(barcode)) {
+            return discMap.get(barcode);
+        }
+
+        return null;
     }
 
 
@@ -107,7 +137,7 @@ public class MediaServiceImpl implements MediaService {
         }
 
         //ISBN
-        if (!mediaMap.containsKey(book.getIsbn())) {
+        if (!bookMap.containsKey(book.getIsbn())) {
             return MediaServiceResult.ISBN_NOTFOUND;
         }
 
@@ -119,15 +149,44 @@ public class MediaServiceImpl implements MediaService {
 
 
         //change this to Persistence Layer
-        mediaMap.replace(book.getIsbn(), book);
+        bookMap.replace(book.getIsbn(), book);
 
         return MediaServiceResult.OK;
     }
 
     @Override
     public MediaServiceResult updateDisc(String barcode, Disc disc) {
-        return null;
+        //no barcode or invalid
+        if (disc.getBarcode() == null || barcode == null || disc.getBarcode().isEmpty()  ) {
+
+            return MediaServiceResult.BARCODE_INVALID;
+        }
+
+
+        if (!barcode.equals(disc.getBarcode())) {
+            return MediaServiceResult.BARCODE_CONFLICT;
+        }
+
+        //ISBN
+        if (!discMap.containsKey(disc.getBarcode())) {
+            return MediaServiceResult.BARCODE_NOTFOUND;
+        }
+
+
+        //no author or Title
+        if (disc.getDirector() == null || disc.getTitle() == null || disc.getTitle().isEmpty() || disc.getDirector().isEmpty()) {
+            return MediaServiceResult.DATA_INVALID;
+        }
+
+
+        //change this to Persistence Layer
+        discMap.replace(disc.getBarcode(), disc);
+
+        return MediaServiceResult.OK;
     }
+
+
+
 
     /**
      * Checking the given string for a valid ISB10 number.

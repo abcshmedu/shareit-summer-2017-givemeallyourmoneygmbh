@@ -19,9 +19,16 @@ public enum MediaServiceResult {
     OK(200, Status.OK, ""),
     ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
     ISBN_DUPLICATE(400, Status.BAD_REQUEST, "ISBN bereits vorhanden"),
-    DATA_INVALID(400, Status.BAD_REQUEST, "Autor oder Title ungueltig"),
+    DATA_INVALID(400, Status.BAD_REQUEST, "Daten ungueltig"),
     ISBN_NOTFOUND(404, Status.BAD_REQUEST, "ISBN nicht gefunden"),
-    ISBN_CONFLICT(400, Status.BAD_REQUEST, "ISBN Konflikt");
+    ISBN_CONFLICT(400, Status.BAD_REQUEST, "ISBN Konflikt"),
+
+    BARCODE_INVALID(400, Status.BAD_REQUEST, "Barcode nicht angegeben oder ungueltig"),
+    BARCODE_DUPLICATE(400, Status.BAD_REQUEST, "Barcode bereits vorhanden"),
+    BARCODE_NOTFOUND(404, Status.BAD_REQUEST, "Barcode nicht gefunden"),
+    BARCODE_CONFLICT(400, Status.BAD_REQUEST, "Barcode Konflikt");
+
+    ;
 
 
     private final String detail;

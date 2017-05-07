@@ -11,9 +11,9 @@ package edu.hm.shareit.model.media;
  */
 public class Disc extends Medium {
 
-    private String barcode;
-    private String director;
-    private int fsk;
+    private String barcode = null;
+    private String director = null;
+    private int fsk = -1;
 
     /**
      * Creates a Disc.
@@ -30,8 +30,14 @@ public class Disc extends Medium {
      */
     public Disc(String barcode, String director, int fsk, String title) {
         super(title);
-        this.barcode = barcode;
-        this.director = director;
+        if(barcode != null)
+            this.barcode = barcode.trim();
+
+
+        if(director != null)
+            this.director = director.trim();
+
+
         this.fsk = fsk;
     }
 

@@ -11,8 +11,8 @@ package edu.hm.shareit.model.media;
  */
 public class Book extends Medium {
 
-    private String author;
-    private String isbn13;
+    private String author = null;
+    private String isbn13 = null;
 
 
     /**
@@ -25,17 +25,17 @@ public class Book extends Medium {
     /** Creates a book with given parameters.
      * @param title Title of the book.
      * @param author author of the book.
-     * @param isbn3 isbn13 of the book.
+     * @param isbn13 isbn13 of the book.
      */
-    public Book(String title, String author, String isbn10) {
+    public Book(String title, String author, String isbn13) {
         super(title);
 
         if (author != null) {
             this.author = author.trim();
         }
 
-        if (isbn10 != null) {
-            this.isbn13 = isbn10.trim();
+        if (isbn13 != null) {
+            this.isbn13 = isbn13.trim();
         }
     }
 

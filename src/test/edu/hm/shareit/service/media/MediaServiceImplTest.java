@@ -1,16 +1,21 @@
 package edu.hm.shareit.service.media;
 
 import edu.hm.shareit.model.media.Book;
+import edu.hm.shareit.model.media.Disc;
+import edu.hm.shareit.model.media.Medium;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Organization Hochschule Muenchen FK07
@@ -27,8 +32,10 @@ public class MediaServiceImplTest {
 
     private MediaServiceImpl service;
 
+    private final List<Book> books = new ArrayList<>();
+    Disc disc = new Disc("B01M72AYG3", " Scott Derrickson", 12, "Doctor Strange 2");
 
-    public MediaServiceResult mediaServiceResult;
+    //public MediaServiceResult mediaServiceResult;
 
     /**
      * test data for adding books.
@@ -120,19 +127,35 @@ public class MediaServiceImplTest {
         service = new MediaServiceImpl();
         //Add some Books
 
-        MediaServiceResult result = service.addBook(new Book("Star Wars Rebel Rising", " Beth Revis", "9781484780831"));
+        Book book = new Book("Star Wars Rebel Rising", " Beth Revis", "9781484780831");
+        books.add(book);
+
+        MediaServiceResult result = service.addBook(book);
         assertEquals(MediaServiceResult.OK, result);
 
+
+        book = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Gamma, Erich", "9780201633610");
+        books.add(book);
         //result = service.addBook(new Book("Design Patterns: Elements of Reusable Object-Oriented Software","Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John","0201633612"));
-        result = service.addBook(new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Gamma, Erich", "9780201633610"));
+        result = service.addBook(book);
         assertEquals(MediaServiceResult.OK, result);
 
-        result = service.addBook(new Book("Harry Potter and the Cursed Child", "Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John", "9783551559005"));
+        book = new Book("Harry Potter and the Cursed Child", "Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John", "9783551559005");
+        books.add(book);
+        result = service.addBook(book);
         assertEquals(MediaServiceResult.OK, result);
 
 
-        result = service.addBook(new Book("The Book with No Pictures", "Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John", "9780810983915")); //B.-J.-Novak, 0803741715
+        book = new Book("The Book with No Pictures", "Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John", "9780810983915");
+        books.add(book);
+        result = service.addBook(book); //B.-J.-Novak, 0803741715
         assertEquals(MediaServiceResult.OK, result);
+
+
+
+        final MediaServiceResult discResult = service.addDisc(disc);
+        assertEquals(MediaServiceResult.OK, discResult);
+
 
     }
 
@@ -197,6 +220,111 @@ public class MediaServiceImplTest {
     public void testIsbn10() {
         assertEquals(true, service.validISBN10("0399553541"));
         assertEquals(false, service.validISBN10("0939553541"));
+
+    }
+
+
+    @Test
+    public void testGetBooks() {
+
+
+        final Medium[] mediums = service.getBooks();
+        List<Medium> list = Arrays.asList(mediums);
+        assertEquals(books.size(), mediums.length);
+
+        for (Book b: books ) {
+
+            boolean exist = false;
+            for (Medium result: list) {
+                Book bookResult = (Book) result;
+                if(bookResult.getIsbn().equals(b.getIsbn())) {
+                    exist = true;
+                    break;
+                }
+
+
+            }
+            assertTrue(exist);
+        }
+
+    }
+
+
+    /**
+     * test data for adding books.
+     * @return collection of add book data.
+     */
+    public static Collection<Object[]> addDiscData() {
+
+        return Arrays.asList(new Object[][]{
+
+                //ISBN Invalid
+
+                {new Disc("", " Gareth Edwards", 12, "Rogue One - A Star Wars Story"), MediaServiceResult.BARCODE_INVALID},
+                {new Disc("B01N4ECRNP", " ", 12, "Rogue One - A Star Wars Story"), MediaServiceResult.DATA_INVALID},
+                {new Disc("B01N4ECRNP", null, 12, "Rogue One - A Star Wars Story"), MediaServiceResult.DATA_INVALID},
+
+                {new Disc("B01N4ECRNP",  " Gareth Edwards", -1, "Rogue One - A Star Wars Story"), MediaServiceResult.DATA_INVALID},
+
+                {new Disc("B01N4ECRNP", " Gareth Edwards", 12, "Rogue One - A Star Wars Story"), MediaServiceResult.OK},
+                {new Disc("B01M72AYG3", " Scott Derrickson", 12, "Doctor Strange "), MediaServiceResult.BARCODE_DUPLICATE},
+                {new Disc("B01M72AYG3", " Scott Derrickson", 12, "ksfdjsdhf"), MediaServiceResult.BARCODE_DUPLICATE},
+
+
+
+        });
+
+    }
+
+
+
+    /**
+     * Test: add discs.
+     * @param disc disc
+     * @param expected expected result.
+     */
+    @Test
+    @Parameters(method = "addDiscData")
+    public void testAddDisc(final Disc disc, MediaServiceResult expected) {
+
+        final MediaServiceResult result = service.addDisc(disc);
+        assertEquals(expected, result);
+
+    }
+
+
+    @Test
+    public void testGetDiscs() {
+
+
+        final Medium[] mediums = service.getDiscs();
+        assertEquals(1, mediums.length);
+
+        final Disc disc = (Disc) mediums[0];
+        assertEquals(disc.getBarcode(), disc.getBarcode());
+
+
+
+    }
+
+
+
+    @Test
+    public void testUpdateDisc() {
+
+        final Medium[] mediums = service.getDiscs();
+        final Disc disc = (Disc) mediums[0];
+
+        Disc newDisc = new Disc("B01N4ECRNP", " Gareth Edwards", 12, "Rogue One - A Star Wars Story");
+        MediaServiceResult result = service.updateDisc(disc.getBarcode(), newDisc);
+        assertEquals(MediaServiceResult.BARCODE_CONFLICT, result);
+
+
+        newDisc = new Disc("B01M72AYG3", " Scott Derrickson", 12, "Doctor Strange" );
+        result = service.updateDisc(disc.getBarcode(), newDisc);
+        assertEquals(MediaServiceResult.OK, result);
+
+
 
     }
 

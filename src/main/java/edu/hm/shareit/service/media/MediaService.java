@@ -28,7 +28,7 @@ public interface MediaService {
     MediaServiceResult addDisc(Disc disc);
 
     /** Returns book with given isbn.
-     * @param isbn isbn10.
+     * @param isbn isbn13 number as String.
      * @return returns the book as medium object.
      */
     Medium getBook(String isbn);
@@ -42,6 +42,12 @@ public interface MediaService {
      * @return returns the discs as an array of medium objects.
      */
     Medium[] getDiscs();
+
+    /** Returns disc with given barcode or null if not exist.
+     * @param barcode barcode.
+     * @return returns the disc as medium object.
+     */
+    Medium getDisc(String barcode);
 
     /** Update the book with the given isbn.
      * @param isbn isbn10 of the book which has to be updated.
