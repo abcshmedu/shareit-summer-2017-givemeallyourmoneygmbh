@@ -31,6 +31,13 @@ public class MediaServiceImpl implements MediaService {
 
         mediaMap = new HashMap<>();
 
+
+        //zum testen
+        addBook(
+                new Book("Die Nebel von Avalon ","Marion Zimmer Bradley","3596282225")
+        );
+
+
     }
 
 

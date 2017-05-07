@@ -7,6 +7,7 @@ import edu.hm.shareit.service.media.MediaServiceImpl;
 import edu.hm.shareit.service.media.MediaServiceResult;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -26,13 +27,8 @@ public class MediaResource {
 
     private MediaService mediaService = new MediaServiceImpl();
 
-/*
-ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
-    ISBN_DUPLICATE(400, Status.BAD_REQUEST, "ISBN bereits vorhanden"),
-    DATA_INVALID(400, Status.BAD_REQUEST, "Autor oder Title ungueltig"),
-    ISBN_NOTFOUND(404, Status.BAD_REQUEST, "ISBN nicht gefunden"),
-    ISBN_CONFLICT(400, Status.BAD_REQUEST, "ISBN Konflikt"
-*/
+
+
     /**
      * Creates a new Medium.
      * possible Errors:
@@ -44,8 +40,8 @@ ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
      */
     @Path("/books")
     @POST
-    @Produces("application/json")
-    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
 
         Response response;
@@ -71,8 +67,8 @@ ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
      */
     @Path("/books/{isbn}")
     @GET
-    @Produces("application/json")
-    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response getBook(@PathParam("isbn") String isbn) {
         Response response;
 
@@ -89,14 +85,16 @@ ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
 
     }
 
+
     /**
      * Returns all available books.
      * @return Json representation of an array of books.
      */
+
     @Path("/books")
     @GET
-    @Produces("application/json")
-    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response getBooks() {
 
 
@@ -115,6 +113,7 @@ ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
 
     }
 
+
     /**
      * Update an existing  book.
      * possible Errors:
@@ -129,8 +128,8 @@ ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
      */
     @Path("/books/{isbn}")
     @PUT
-    @Produces("application/json")
-    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("isbn") String isbn, Book book) {
 
         Response response;
