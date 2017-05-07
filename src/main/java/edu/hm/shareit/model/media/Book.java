@@ -12,7 +12,7 @@ package edu.hm.shareit.model.media;
 public class Book extends Medium {
 
     private String author;
-    private String isbn10;
+    private String isbn13;
 
 
     /**
@@ -25,7 +25,7 @@ public class Book extends Medium {
     /** Creates a book with given parameters.
      * @param title Title of the book.
      * @param author author of the book.
-     * @param isbn10 isbn10 of the book.
+     * @param isbn3 isbn13 of the book.
      */
     public Book(String title, String author, String isbn10) {
         super(title);
@@ -35,7 +35,7 @@ public class Book extends Medium {
         }
 
         if (isbn10 != null) {
-            this.isbn10 = isbn10.trim();
+            this.isbn13 = isbn10.trim();
         }
     }
 
@@ -47,11 +47,11 @@ public class Book extends Medium {
         return author;
     }
 
-    /** Rteurns the isbn10 of this book.
-     * @return isbn10.
+    /** Rteurns the isbn13 of this book.
+     * @return isbn13.
      */
-    public String getIsbn10() {
-        return isbn10;
+    public String getIsbn() {
+        return isbn13;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Book extends Medium {
             return false;
         }
 
-        return isbn10 != null ? isbn10.equals(book.isbn10) : book.isbn10 == null;
+        return isbn13 != null ? isbn13.equals(book.isbn13) : book.isbn13 == null;
 
     }
 
@@ -80,7 +80,7 @@ public class Book extends Medium {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (isbn10 != null ? isbn10.hashCode() : 0);
+        result = 31 * result + (isbn13 != null ? isbn13.hashCode() : 0);
         return result;
     }
 
@@ -88,7 +88,7 @@ public class Book extends Medium {
     public String toString() {
         return "Book{"
                 + "author='" + author + '\''
-                + ", isbn10='" + isbn10 + '\''
+                + ", isbn13='" + isbn13 + '\''
                 + "} " + super.toString();
     }
 }

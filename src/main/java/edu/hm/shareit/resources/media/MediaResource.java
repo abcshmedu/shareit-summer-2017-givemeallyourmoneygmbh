@@ -32,7 +32,7 @@ public class MediaResource {
     /**
      * Creates a new Medium.
      * possible Errors:
-     * ISBN_INVALID - isbn is not a valide isbn10 string.
+     * ISBN_INVALID - isbn is not a valide isbn13 string.
      * ISBN_DUPLICATE - a book with the same isbn already exist
      * DATA_INVALID - missing author and title
      * @param book new book.
@@ -62,7 +62,7 @@ public class MediaResource {
 
     /**
      * Returns a JSON representation of the book with the given isbn or null if the book doesn't exist.
-     * @param isbn isbn10.
+     * @param isbn isbn13.
      * @return Returns ok if no error occurred or the errorcode and details.
      */
     @Path("/books/{isbn}")
@@ -74,7 +74,6 @@ public class MediaResource {
 
         try {
             Medium result = mediaService.getBook(isbn);
-
             response = Response.ok(result).build();
 
         } catch (Exception exception) {
@@ -118,12 +117,12 @@ public class MediaResource {
      * Update an existing  book.
      * possible Errors:
      * ISBN_NOTFOUND - a book with the given isbn doesn't exist.
-     * ISBN_INVALID - isbn is not a valide isbn10 string.
+     * ISBN_INVALID - isbn is not a valide isbn13 string.
      * ISBN_CONFLICT - not matching isbn strings between the given book and the new data.
      * DATA_INVALID - missing author and title
      *
      * @param book book.
-     * @param isbn isbn10.
+     * @param isbn isbn13.
      * @return Returns ok if no error occurred or the errorcode and details.
      */
     @Path("/books/{isbn}")

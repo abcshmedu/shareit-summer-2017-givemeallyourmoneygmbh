@@ -32,10 +32,7 @@ public class MediaServiceImpl implements MediaService {
         mediaMap = new HashMap<>();
 
 
-        //zum testen
-        addBook(
-                new Book("Die Nebel von Avalon ","Marion Zimmer Bradley","3596282225")
-        );
+
 
 
     }
@@ -45,12 +42,12 @@ public class MediaServiceImpl implements MediaService {
     public MediaServiceResult addBook(Book book) {
 
         //no ISBN or invalide
-        if (book.getIsbn10() == null || book.getIsbn10().isEmpty() || !validISBN(book.getIsbn10())) {
+        if (book.getIsbn() == null || book.getIsbn().isEmpty() || !validISBN13(book.getIsbn())) {
             return MediaServiceResult.ISBN_INVALID;
         }
 
         //ISBN duplicate
-        if (mediaMap.containsKey(book.getIsbn10())) {
+        if (mediaMap.containsKey(book.getIsbn())) {
             return MediaServiceResult.ISBN_DUPLICATE;
         }
 
@@ -62,7 +59,7 @@ public class MediaServiceImpl implements MediaService {
 
 
         //change this to Persistence Layer
-        final Medium medium = mediaMap.put(book.getIsbn10(), book);
+        final Medium medium = mediaMap.put(book.getIsbn(), book);
 
         return MediaServiceResult.OK;
     }
@@ -99,18 +96,18 @@ public class MediaServiceImpl implements MediaService {
     public MediaServiceResult updateBook(String isbn, Book book) {
 
         //no ISBN or invalid
-        if (book.getIsbn10() == null || isbn == null || book.getIsbn10().isEmpty() || !validISBN(book.getIsbn10()) || !validISBN(isbn)) {
+        if (book.getIsbn() == null || isbn == null || book.getIsbn().isEmpty() || !validISBN13(book.getIsbn()) || !validISBN13(isbn)) {
 
             return MediaServiceResult.ISBN_INVALID;
         }
 
 
-        if (!isbn.equals(book.getIsbn10())) {
+        if (!isbn.equals(book.getIsbn())) {
             return MediaServiceResult.ISBN_CONFLICT;
         }
 
         //ISBN
-        if (!mediaMap.containsKey(book.getIsbn10())) {
+        if (!mediaMap.containsKey(book.getIsbn())) {
             return MediaServiceResult.ISBN_NOTFOUND;
         }
 
@@ -122,7 +119,7 @@ public class MediaServiceImpl implements MediaService {
 
 
         //change this to Persistence Layer
-        mediaMap.replace(book.getIsbn10(), book);
+        mediaMap.replace(book.getIsbn(), book);
 
         return MediaServiceResult.OK;
     }
@@ -137,7 +134,7 @@ public class MediaServiceImpl implements MediaService {
      * @param isbn isbn10 string to check.
      * @return true if valid else false.
      */
-    private boolean validISBN(String isbn) {
+     boolean validISBN10(String isbn) {
 
         final int isbnLength = 10;
         final int isbn10Modulo = 11;
@@ -175,5 +172,56 @@ public class MediaServiceImpl implements MediaService {
 
     }
 
+
+
+    /**
+     * Checking the given string for a valid ISB13 number.
+     * @param isbn isbn13 string to check.
+     * @return true if valid else false.
+     */
+     boolean validISBN13(String isbn) {
+
+        final int isbnLength = 13;
+        final int modulo = 10;
+
+
+        if (isbn.length() != isbnLength) {
+            return false;
+        }
+
+        int value = 0;
+
+        //sum
+        for (int i = 0; i < isbn.length() - 1; i++) {
+            char c = isbn.charAt(i);
+            int number = Character.getNumericValue(c);
+            //int multiplier = i + 1;
+            int exponent = (i+2) % 2;
+            //if(exponent<0)
+            //    exponent = exponent+2;
+            value += number * (Math.pow(3,exponent ));
+
+        }
+
+
+        int result = (modulo - value % modulo) % modulo;
+
+        if (result < 0) {
+            result = result + modulo;
+        }
+
+
+        int check = Character.getNumericValue(isbn.charAt(isbnLength - 1));
+
+
+
+        if (check == result) {
+            return true;
+        }
+
+        return false;
+
+
+    }
 
 }
