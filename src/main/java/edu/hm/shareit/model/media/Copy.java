@@ -14,15 +14,25 @@ public class Copy {
     private Medium medium;
     private String owner;
 
-    public Copy( String owner, Medium medium) {
+    /** Creates a Copy of an existent medium.
+     * @param owner owner of the copy.
+     * @param medium medium.
+     */
+    public Copy(String owner, Medium medium) {
         this.medium = medium;
         this.owner = owner;
     }
 
+    /** Returns the medium.
+     * @return
+     */
     public Medium getMedium() {
         return medium;
     }
 
+    /** Returns the Owner.
+     * @return
+     */
     public String getUsername() {
         return owner;
     }

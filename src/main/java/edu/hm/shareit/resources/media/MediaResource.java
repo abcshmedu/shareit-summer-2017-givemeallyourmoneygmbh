@@ -26,32 +26,37 @@ public class MediaResource {
 
     private MediaService mediaService = new MediaServiceImpl();
 
-
+/*
+ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
+    ISBN_DUPLICATE(400, Status.BAD_REQUEST, "ISBN bereits vorhanden"),
+    DATA_INVALID(400, Status.BAD_REQUEST, "Autor oder Title ungueltig"),
+    ISBN_NOTFOUND(404, Status.BAD_REQUEST, "ISBN nicht gefunden"),
+    ISBN_CONFLICT(400, Status.BAD_REQUEST, "ISBN Konflikt"
+*/
     /**
-     * Neues Medium Buch anlegen
-     * Moeglicher Fehler: Ungueltige ISBN
-     * Moeglicher Fehler: ISBN bereits vorhanden
-     * Moeglicher Fehler: Autor oder Titel fehlt
-     * @param book Buch welches angelegt werden soll
-     * @return
+     * Creates a new Medium.
+     * possible Errors:
+     * ISBN_INVALID - isbn is not a valide isbn10 string.
+     * ISBN_DUPLICATE - a book with the same isbn already exist
+     * DATA_INVALID - missing author and title
+     * @param book new book.
+     * @return Returns ok if no error occurred or the errorcode and details.
      */
     @Path("/books")
     @POST
     @Produces("application/json")
     @Consumes("application/json")
-    public Response createBook(Book book){
+    public Response createBook(Book book) {
 
         Response response;
 
 
-
-        try{
-            MediaServiceResult result =  mediaService.addBook(book);
+        try {
+            MediaServiceResult result = mediaService.addBook(book);
 
             response = getMediaResponse(result);
 
-        }
-        catch(Exception exception){
+        } catch (Exception exception) {
             response = Response.serverError().build();
         }
 
@@ -60,24 +65,23 @@ public class MediaResource {
     }
 
     /**
-     * Eine JSON-Reprasentation eines gespeicherten Buches liefern, falls vorhanden
-     * @param isbn isbn des Buches
-     * @return
+     * Returns a JSON representation of the book with the given isbn or null if the book doesn't exist.
+     * @param isbn isbn10.
+     * @return Returns ok if no error occurred or the errorcode and details.
      */
     @Path("/books/{isbn}")
     @GET
     @Produces("application/json")
     @Consumes("application/json")
-    public Response getBook(@PathParam("isbn") String isbn){
+    public Response getBook(@PathParam("isbn") String isbn) {
         Response response;
 
-        try{
-            Medium result =  mediaService.getBook(isbn);
+        try {
+            Medium result = mediaService.getBook(isbn);
 
-            response =  Response.ok(result).build();
+            response = Response.ok(result).build();
 
-        }
-        catch(Exception exception){
+        } catch (Exception exception) {
             response = Response.serverError().build();
         }
 
@@ -86,25 +90,24 @@ public class MediaResource {
     }
 
     /**
-     * Alle Bucher auflisten
-     * @return
+     * Returns all available books.
+     * @return Json representation of an array of books.
      */
     @Path("/books")
     @GET
     @Produces("application/json")
     @Consumes("application/json")
-    public Response getBooks(){
+    public Response getBooks() {
 
 
         Response response;
 
 
-        try{
-            Medium[] result =  mediaService.getBooks();
-            response =  Response.ok(result).build();
+        try {
+            Medium[] result = mediaService.getBooks();
+            response = Response.ok(result).build();
 
-        }
-        catch(Exception exception){
+        } catch (Exception exception) {
             response = Response.serverError().build();
         }
 
@@ -113,28 +116,31 @@ public class MediaResource {
     }
 
     /**
-     * Daten zu vorhandenem Buch modizieren (JSON Daten enthalten nur die zu modizierenden Attribute)
-     * Moeglicher Fehler: ISBN nicht gefunden
-     * Moeglicher Fehler: ISBN soll modiziert werden (also die JSON-Daten enthalten eine andere ISBN als die URI)
-     * Moeglicher Fehler: Autor und Titel fehlen
-     * @param book Buch welches bearbeitet werden soll
-     * @return
+     * Update an existing  book.
+     * possible Errors:
+     * ISBN_NOTFOUND - a book with the given isbn doesn't exist.
+     * ISBN_INVALID - isbn is not a valide isbn10 string.
+     * ISBN_CONFLICT - not matching isbn strings between the given book and the new data.
+     * DATA_INVALID - missing author and title
+     *
+     * @param book book.
+     * @param isbn isbn10.
+     * @return Returns ok if no error occurred or the errorcode and details.
      */
     @Path("/books/{isbn}")
     @PUT
     @Produces("application/json")
     @Consumes("application/json")
-    public Response updateBook(@PathParam("isbn") String isbn, Book book){
+    public Response updateBook(@PathParam("isbn") String isbn, Book book) {
 
         Response response;
 
-        try{
+        try {
 
-            MediaServiceResult result =  mediaService.updateBook(isbn,book);
+            MediaServiceResult result = mediaService.updateBook(isbn, book);
             response = getMediaResponse(result);
 
-        }
-        catch(Exception exception){
+        } catch (Exception exception) {
             response = Response.serverError().build();
         }
 
@@ -144,17 +150,16 @@ public class MediaResource {
     }
 
     /**
-     * Erzeugt ein Respond Objekt aufgrund des MediaServiceResults
+     * Creates a Respond Object on the basis of MediaServiceResult.
      * @param value MediaServiceResults
-     * @return
+     * @return Respond Object.
      */
     private Response getMediaResponse(MediaServiceResult value) {
         Response response;
-        switch(value)
-        {
+        switch (value) {
             case OK:
 
-                response =  Response.ok(value.getCode()).build();
+                response = Response.ok(value.getCode()).build();
                 break;
             default:
                 org.json.JSONObject jsonObject = new org.json.JSONObject();

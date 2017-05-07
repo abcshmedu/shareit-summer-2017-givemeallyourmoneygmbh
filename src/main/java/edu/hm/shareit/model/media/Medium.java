@@ -13,18 +13,31 @@ public class Medium {
     private String title;
 
 
+    /** Creates a medium with a given title.
+     * @param title title.
+     */
     public Medium(String title) {
-        this.title = title.trim();
+        if (title != null) {
+            this.title = title.trim();
+        }
     }
 
+    /** Returns the Title of the medium.
+     * @return Title as String.
+     */
     public String getTitle() {
         return title;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Medium)) return false;
+
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Medium)) {
+            return false;
+        }
 
         Medium medium = (Medium) o;
 
@@ -39,8 +52,8 @@ public class Medium {
 
     @Override
     public String toString() {
-        return "Medium{" +
-                "title='" + title + '\'' +
-                '}';
+        return "Medium{"
+                + "title='" + title + '\''
+                + '}';
     }
 }

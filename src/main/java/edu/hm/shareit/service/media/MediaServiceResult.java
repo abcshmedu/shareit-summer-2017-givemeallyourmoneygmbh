@@ -1,7 +1,10 @@
 package edu.hm.shareit.service.media;
+
 import javax.ws.rs.core.Response.Status;
 
 /**
+ * Results of the MediaService.
+ *
  * Organization Hochschule Muenchen FK07
  * Project Software-Architektur, Prof. Dr.-Ing. Axel Bottcher, Praktikum, ShareIt
  * Author I. Colic, M. Huebner
@@ -13,33 +16,51 @@ import javax.ws.rs.core.Response.Status;
 
 public enum MediaServiceResult {
 
-    OK (200,Status.OK,""),
-    ISBN_INVALID (400,Status.BAD_REQUEST,"ISBN nicht angegeben oder ungueltig"),
-    ISBN_DUPLICATE (400,Status.BAD_REQUEST,"ISBN bereits vorhanden"),
-    DATA_INVALID(400,Status.BAD_REQUEST,"Autor oder Title ungueltig"),
-    ISBN_NOTFOUND (404,Status.BAD_REQUEST,"ISBN nicht gefunden"),
-    ISBN_CONFLICT (400,Status.BAD_REQUEST,"ISBN Konflikt")
-    ;
+    OK(200, Status.OK, ""),
+    ISBN_INVALID(400, Status.BAD_REQUEST, "ISBN nicht angegeben oder ungueltig"),
+    ISBN_DUPLICATE(400, Status.BAD_REQUEST, "ISBN bereits vorhanden"),
+    DATA_INVALID(400, Status.BAD_REQUEST, "Autor oder Title ungueltig"),
+    ISBN_NOTFOUND(404, Status.BAD_REQUEST, "ISBN nicht gefunden"),
+    ISBN_CONFLICT(400, Status.BAD_REQUEST, "ISBN Konflikt");
 
 
     private final String detail;
     private final Status status;
     private final int code;
 
-
+    /**
+     * Enum Constructor.
+     * @param code code.
+     * @param status status.
+     * @param detail detail.
+     */
     MediaServiceResult(int code, Status status, String detail) {
         this.code = code;
         this.status = status;
         this.detail = detail;
     }
 
+    /**
+     * Returns the description of the error or empty String.
+     * @return String.
+     */
+
     public String getDetail() {
         return detail;
     }
 
+    /**
+     * Returns response status codes.
+     * @return Status code.
+     */
     public Status getStatus() {
         return status;
     }
+
+    /**
+     * Response status codes.
+     * @return int status code
+     */
 
     public int getCode() {
         return code;
@@ -47,11 +68,11 @@ public enum MediaServiceResult {
 
     @Override
     public String toString() {
-        return "MediaServiceResult{" +
-                "message='" + detail + '\'' +
-                ", status=" + status +
-                ", code=" + code +
-                "} " + super.toString();
+        return "MediaServiceResult{"
+                + "message='" + detail + '\''
+                + ", status=" + status
+                + ", code=" + code
+                + "} " + super.toString();
     }
 }
 

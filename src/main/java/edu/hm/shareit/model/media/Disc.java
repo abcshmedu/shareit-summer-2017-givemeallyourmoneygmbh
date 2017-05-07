@@ -15,39 +15,68 @@ public class Disc extends Medium {
     private String director;
     private int fsk;
 
+    /**
+     * Creates a Disc.
+     */
     public Disc() {
         super("");
     }
 
-    public Disc( String barcode, String director, int fsk, String title) {
+    /** Creates a disc with given parameters.
+     * @param barcode barcode.
+     * @param director director.
+     * @param fsk FSK.
+     * @param title title.
+     */
+    public Disc(String barcode, String director, int fsk, String title) {
         super(title);
         this.barcode = barcode;
         this.director = director;
         this.fsk = fsk;
     }
 
+    /**Returns the barcode.
+     * @return
+     */
     public String getBarcode() {
         return barcode;
     }
 
+    /** Returns the Director.
+     * @return
+     */
     public String getDirector() {
         return director;
     }
 
+    /** Returns FSK.
+     * @return
+     */
     public int getFsk() {
         return fsk;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Disc)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Disc)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
 
         Disc disc = (Disc) o;
 
-        if (fsk != disc.fsk) return false;
-        if (barcode != null ? !barcode.equals(disc.barcode) : disc.barcode != null) return false;
+        if (fsk != disc.fsk) {
+            return false;
+        }
+        if (barcode != null ? !barcode.equals(disc.barcode) : disc.barcode != null) {
+            return false;
+        }
         return director != null ? director.equals(disc.director) : disc.director == null;
 
     }
@@ -63,10 +92,10 @@ public class Disc extends Medium {
 
     @Override
     public String toString() {
-        return "Disc{" +
-                "barcode='" + barcode + '\'' +
-                ", director='" + director + '\'' +
-                ", fsk=" + fsk +
-                "} " + super.toString();
+        return "Disc{"
+                + "barcode='" + barcode + '\''
+                + ", director='" + director + '\''
+                + ", fsk=" + fsk
+                + "} " + super.toString();
     }
 }

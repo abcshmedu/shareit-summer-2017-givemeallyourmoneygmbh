@@ -15,13 +15,46 @@ import edu.hm.shareit.model.media.Medium;
  */
 
 public interface MediaService {
+    /** Add new book.
+     * @param book book.
+     * @return returns MediaServiceResult.Ok if no error occurred.
+     */
     MediaServiceResult addBook(Book book);
-    MediaServiceResult addDisc(Disc Disc);
 
+    /** Add new Disc.
+     * @param disc disc.
+     * @return returns MediaServiceResult.Ok if no error occurred.
+     */
+    MediaServiceResult addDisc(Disc disc);
+
+    /** Returns book with given isbn.
+     * @param isbn isbn10.
+     * @return returns the book as medium object.
+     */
     Medium getBook(String isbn);
+
+    /** Returns an array of all available books.
+     * @return returns the books as an array of medium objects.
+     */
     Medium[] getBooks();
+
+    /**Returns all available discs.
+     * @return returns the discs as an array of medium objects.
+     */
     Medium[] getDiscs();
+
+    /** Update the book with the given isbn.
+     * @param isbn isbn10 of the book which has to be updated.
+     * @param book book.
+     * @return returns MediaServiceResult.Ok if no error occurred.
+     */
     MediaServiceResult updateBook(String isbn, Book book);
-    MediaServiceResult updateDisc(String barcode,Disc disc);
+
+    /** Update the disc with the given barcode.
+     * @param barcode barcode of the disc which has to be updated.
+     * @param disc disc.
+     * @return returns MediaServiceResult.Ok if no error occurred.
+     */
+    MediaServiceResult updateDisc(String barcode, Disc disc);
 
 }
