@@ -24,14 +24,14 @@ public class Copy {
     }
 
     /** Returns the medium.
-     * @return
+     * @return returns a medium.
      */
     public Medium getMedium() {
         return medium;
     }
 
     /** Returns the Owner.
-     * @return
+     * @return returns username as String.
      */
     public String getUsername() {
         return owner;

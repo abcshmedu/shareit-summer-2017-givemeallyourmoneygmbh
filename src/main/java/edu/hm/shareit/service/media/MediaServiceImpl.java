@@ -78,7 +78,7 @@ public class MediaServiceImpl implements MediaService {
 
 
         //no director or Title etc
-        if (disc.getDirector() == null || disc.getDirector().isEmpty() || disc.getTitle() == null || disc.getTitle().isEmpty() ||  disc.getFsk() <0) {
+        if (disc.getDirector() == null || disc.getDirector().isEmpty() || disc.getTitle() == null || disc.getTitle().isEmpty() || disc.getFsk() < 0) {
             return MediaServiceResult.DATA_INVALID;
         }
 
@@ -157,7 +157,7 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public MediaServiceResult updateDisc(String barcode, Disc disc) {
         //no barcode or invalid
-        if (disc.getBarcode() == null || barcode == null || disc.getBarcode().isEmpty()  ) {
+        if (disc.getBarcode() == null || barcode == null || disc.getBarcode().isEmpty()) {
 
             return MediaServiceResult.BARCODE_INVALID;
         }
@@ -186,14 +186,13 @@ public class MediaServiceImpl implements MediaService {
     }
 
 
-
-
     /**
      * Checking the given string for a valid ISB10 number.
+     *
      * @param isbn isbn10 string to check.
      * @return true if valid else false.
      */
-     boolean validISBN10(String isbn) {
+    boolean validISBN10(String isbn) {
 
         final int isbnLength = 10;
         final int isbn10Modulo = 11;
@@ -232,16 +231,17 @@ public class MediaServiceImpl implements MediaService {
     }
 
 
-
     /**
      * Checking the given string for a valid ISB13 number.
+     *
      * @param isbn isbn13 string to check.
      * @return true if valid else false.
      */
-     boolean validISBN13(String isbn) {
+    boolean validISBN13(String isbn) {
 
         final int isbnLength = 13;
         final int modulo = 10;
+        final int base = 3;
 
 
         if (isbn.length() != isbnLength) {
@@ -254,11 +254,9 @@ public class MediaServiceImpl implements MediaService {
         for (int i = 0; i < isbn.length() - 1; i++) {
             char c = isbn.charAt(i);
             int number = Character.getNumericValue(c);
-            //int multiplier = i + 1;
-            int exponent = (i+2) % 2;
-            //if(exponent<0)
-            //    exponent = exponent+2;
-            value += number * (Math.pow(3,exponent ));
+
+            int exponent = (i + 2) % 2;
+            value += number * (Math.pow(base, exponent));
 
         }
 
@@ -271,7 +269,6 @@ public class MediaServiceImpl implements MediaService {
 
 
         int check = Character.getNumericValue(isbn.charAt(isbnLength - 1));
-
 
 
         if (check == result) {

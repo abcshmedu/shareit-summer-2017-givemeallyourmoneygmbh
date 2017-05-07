@@ -22,41 +22,51 @@ public class Disc extends Medium {
         super("");
     }
 
-    /** Creates a disc with given parameters.
-     * @param barcode barcode.
+    /**
+     * Creates a disc with given parameters.
+     *
+     * @param barcode  barcode.
      * @param director director.
-     * @param fsk FSK.
-     * @param title title.
+     * @param fsk      FSK.
+     * @param title    title.
      */
     public Disc(String barcode, String director, int fsk, String title) {
         super(title);
-        if(barcode != null)
+        if (barcode != null) {
             this.barcode = barcode.trim();
+        }
 
 
-        if(director != null)
+        if (director != null) {
             this.director = director.trim();
+        }
 
 
         this.fsk = fsk;
     }
 
-    /**Returns the barcode.
-     * @return
+    /**
+     * Returns the barcode.
+     *
+     * @return returns barcode as String.
      */
     public String getBarcode() {
         return barcode;
     }
 
-    /** Returns the Director.
-     * @return
+    /**
+     * Returns the Director.
+     *
+     * @return returns director as String.
      */
     public String getDirector() {
         return director;
     }
 
-    /** Returns FSK.
-     * @return
+    /**
+     * Returns FSK.
+     *
+     * @return fsk as integer.
      */
     public int getFsk() {
         return fsk;

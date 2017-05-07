@@ -13,7 +13,9 @@ public class Medium {
     private String title;
 
 
-    /** Creates a medium with a given title.
+    /**
+     * Creates a medium with a given title.
+     *
      * @param title title.
      */
     public Medium(String title) {
@@ -22,7 +24,9 @@ public class Medium {
         }
     }
 
-    /** Returns the Title of the medium.
+    /**
+     * Returns the Title of the medium.
+     *
      * @return Title as String.
      */
     public String getTitle() {

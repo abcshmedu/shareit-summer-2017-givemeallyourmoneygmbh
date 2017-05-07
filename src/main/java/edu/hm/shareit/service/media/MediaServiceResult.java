@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response.Status;
 
 /**
  * Results of the MediaService.
- *
+ * <p>
  * Organization Hochschule Muenchen FK07
  * Project Software-Architektur, Prof. Dr.-Ing. Axel Bottcher, Praktikum, ShareIt
  * Author I. Colic, M. Huebner
@@ -27,7 +27,6 @@ public enum MediaServiceResult {
     BARCODE_DUPLICATE(400, Status.BAD_REQUEST, "Barcode bereits vorhanden"),
     BARCODE_NOTFOUND(404, Status.BAD_REQUEST, "Barcode nicht gefunden"),
     BARCODE_CONFLICT(400, Status.BAD_REQUEST, "Barcode Konflikt");
-
     ;
 
 
@@ -37,7 +36,8 @@ public enum MediaServiceResult {
 
     /**
      * Enum Constructor.
-     * @param code code.
+     *
+     * @param code   code.
      * @param status status.
      * @param detail detail.
      */
@@ -49,6 +49,7 @@ public enum MediaServiceResult {
 
     /**
      * Returns the description of the error or empty String.
+     *
      * @return String.
      */
 
@@ -58,6 +59,7 @@ public enum MediaServiceResult {
 
     /**
      * Returns response status codes.
+     *
      * @return Status code.
      */
     public Status getStatus() {
@@ -66,6 +68,7 @@ public enum MediaServiceResult {
 
     /**
      * Response status codes.
+     *
      * @return int status code
      */
 

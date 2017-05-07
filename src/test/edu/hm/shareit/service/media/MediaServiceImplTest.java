@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -324,9 +325,21 @@ public class MediaServiceImplTest {
         result = service.updateDisc(disc.getBarcode(), newDisc);
         assertEquals(MediaServiceResult.OK, result);
 
-
-
     }
 
+    @Test
+    public void testGetDisc(){
+        final Medium result = service.getDisc("B01M72AYG3");
+        assertNotNull(result);
+        assertEquals(disc.getTitle(),result.getTitle());
+    }
+
+
+    @Test
+    public void testGetBookByISBN(){
+        final Medium result = service.getBook(books.get(0).getIsbn());
+        assertNotNull(result);
+        assertEquals(books.get(0).getTitle(),result.getTitle());
+    }
 
 }
