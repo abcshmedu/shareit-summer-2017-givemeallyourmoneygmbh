@@ -252,8 +252,8 @@ public class MediaServiceImplTest {
 
 
     /**
-     * test data for adding books.
-     * @return collection of add book data.
+     * test data for adding discs.
+     * @return collection of add disc data.
      */
     public static Collection<Object[]> addDiscData() {
 
@@ -308,24 +308,42 @@ public class MediaServiceImplTest {
 
     }
 
+    /**
+     * test data for updateing discs.
+     * @return collection of update disc data.
+     */
+    public static Collection<Object[]> updateDiscData() {
+
+        return Arrays.asList(new Object[][]{
+
+                //ISBN Invalid
+
+                {"B01FEK81QA",new Disc("B01M72AYG3", " Gareth Edwards", 12, "Rogue One - A Star Wars Story"), MediaServiceResult.BARCODE_CONFLICT},
+                {"B01FEK81QA",new Disc("", " Gareth Edwards", 12, "Rogue One - A Star Wars Story"), MediaServiceResult.BARCODE_INVALID},
+                {"B01M72AYG3",new Disc("B01M72AYG3", " Scott Derrickson", 12, "Doctor Strange" ), MediaServiceResult.OK},
+                {"B01M72AYG3",new Disc("B01M72AYG3", " ", 12, "Doctor Strange" ), MediaServiceResult.DATA_INVALID},
+                {"B01M72AYG3",new Disc("B01M72AYG3", "Scott Derrickson ", -1 , "Doctor Strange" ), MediaServiceResult.DATA_INVALID},
+                {"B01M72AYG3",new Disc("B01M72AYG3", "Scott Derrickson ", 12 , "" ), MediaServiceResult.DATA_INVALID},
+                {"B01M72AYG3",new Disc("B01M72AYG3", "Scott Derrickson ", 12 , null ), MediaServiceResult.DATA_INVALID},
+                {"B01M72AYG3",new Disc(null, "Scott Derrickson ", 12 , "Doctor Strange" ), MediaServiceResult.BARCODE_INVALID},
+
+                {"B01M72AYG3",new Disc("B01M72AYG3", null, 12 , "Doctor Strange" ), MediaServiceResult.DATA_INVALID},
 
 
-    @Test
-    public void testUpdateDisc() {
-
-        final Medium[] mediums = service.getDiscs();
-        final Disc disc = (Disc) mediums[0];
-
-        Disc newDisc = new Disc("B01N4ECRNP", " Gareth Edwards", 12, "Rogue One - A Star Wars Story");
-        MediaServiceResult result = service.updateDisc(disc.getBarcode(), newDisc);
-        assertEquals(MediaServiceResult.BARCODE_CONFLICT, result);
-
-
-        newDisc = new Disc("B01M72AYG3", " Scott Derrickson", 12, "Doctor Strange" );
-        result = service.updateDisc(disc.getBarcode(), newDisc);
-        assertEquals(MediaServiceResult.OK, result);
+        });
 
     }
+
+    @Test
+    @Parameters(method = "updateDiscData")
+    public void testUpdateDisc(final String barcode, final Disc disc, MediaServiceResult expected) {
+
+        final MediaServiceResult result = service.updateDisc(barcode, disc);
+        assertEquals(expected, result);
+
+    }
+
+
 
     @Test
     public void testGetDisc(){

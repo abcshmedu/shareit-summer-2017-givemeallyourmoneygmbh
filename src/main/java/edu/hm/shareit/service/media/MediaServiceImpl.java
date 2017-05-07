@@ -174,7 +174,7 @@ public class MediaServiceImpl implements MediaService {
 
 
         //no author or Title
-        if (disc.getDirector() == null || disc.getTitle() == null || disc.getTitle().isEmpty() || disc.getDirector().isEmpty()) {
+        if (disc.getDirector() == null || disc.getTitle() == null || disc.getTitle().isEmpty() || disc.getDirector().isEmpty() || disc.getFsk() <0 ) {
             return MediaServiceResult.DATA_INVALID;
         }
 
