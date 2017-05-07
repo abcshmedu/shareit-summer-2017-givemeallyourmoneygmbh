@@ -27,7 +27,6 @@ public enum MediaServiceResult {
     BARCODE_DUPLICATE(400, Status.BAD_REQUEST, "Barcode bereits vorhanden"),
     BARCODE_NOTFOUND(404, Status.BAD_REQUEST, "Barcode nicht gefunden"),
     BARCODE_CONFLICT(400, Status.BAD_REQUEST, "Barcode Konflikt");
-    ;
 
 
     private final String detail;
