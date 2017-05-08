@@ -72,7 +72,7 @@ public class MediaServiceImplTest {
                 //OK
                 {new Book("Star Wars: The Old Republic - Revan (Star Wars: The Old Republic - Legends)   ", "Drew Karpyshyn  ", "9780345511355   "), MediaServiceResult.OK},
                 {new Book("My Little Pony: Fluttershy and the Fine Furry Friends Fair (My Little Pony Chapter Books)", "G. M. Berrow", "9780316277198"), MediaServiceResult.OK}, //ISBN-10 = 0316277193
-                {new Book("My Little Pony: Fluttershy and the Fine Furry Friends Fair (My Little Pony Chapter Books)", "G. M. Berrow", "978-0316277198"), MediaServiceResult.OK}, //ISBN-10 = 0316277193
+                {new Book("My Little Pony: Fluttershy and the Fine Furry Friends Fair (My Little Pony Chapter Books)", "G. M. Berrow", "978-0316277198"), MediaServiceResult.ISBN_DUPLICATE}, //ISBN-10 = 0316277193
 
         });
 
@@ -131,30 +131,27 @@ public class MediaServiceImplTest {
         books.add(book);
 
         MediaServiceResult result = service.addBook(book);
-        assertEquals(MediaServiceResult.OK, result);
+
 
 
         book = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Gamma, Erich", "9780201633610");
         books.add(book);
         //result = service.addBook(new Book("Design Patterns: Elements of Reusable Object-Oriented Software","Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John","0201633612"));
         result = service.addBook(book);
-        assertEquals(MediaServiceResult.OK, result);
+
 
         book = new Book("Harry Potter and the Cursed Child", "Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John", "9783551559005");
         books.add(book);
         result = service.addBook(book);
-        assertEquals(MediaServiceResult.OK, result);
+
 
 
         book = new Book("The Book with No Pictures", "Gamma, Erich; Helm, Richard; Johnson, Ralph E.; Vlissides, John", "9780810983915");
         books.add(book);
         result = service.addBook(book); //B.-J.-Novak, 0803741715
-        assertEquals(MediaServiceResult.OK, result);
-
-
 
         final MediaServiceResult discResult = service.addDisc(disc);
-        assertEquals(MediaServiceResult.OK, discResult);
+
 
 
     }
@@ -171,6 +168,8 @@ public class MediaServiceImplTest {
     public void testAddBook(final Book book, MediaServiceResult expected) {
 
         final MediaServiceResult result = service.addBook(book);
+        //if(result!= null)
+        //    books.add(book);
         assertEquals(expected, result);
 
     }
@@ -350,11 +349,14 @@ public class MediaServiceImplTest {
 
     @Test
     public void testGetDisc(){
-        Medium result = service.getDisc("B01M72AYG3");
-        assertNotNull(result);
-        assertEquals(disc.getTitle(),result.getTitle());
 
-        result = service.getDisc("B01N4ECRNP");
+
+        Disc expected = (Disc) disc;
+        Disc result = (Disc)  service.getDisc("B01M72AYG3");;
+        assertNotNull(result);
+        assertEquals(disc.getBarcode(),result.getBarcode());
+
+        result = (Disc) service.getDisc("B01F4ECRNP");
         assertNull(result);
     }
 
