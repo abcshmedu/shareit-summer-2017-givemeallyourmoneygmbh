@@ -22,17 +22,14 @@ public class MediaServiceImpl implements MediaService {
 
 
     //in der naechsten Aufgabe auslagern nach Persistence Layer
-    private Map<String, Medium> bookMap;
+    private static Map<String, Medium> bookMap = new HashMap<>();
 
-    private Map<String, Medium> discMap;
+    private static Map<String, Medium> discMap =new HashMap<>();
 
     /**
      * Default Constructor.
      */
     public MediaServiceImpl() {
-
-        bookMap = new HashMap<>();
-        discMap = new HashMap<>();
 
     }
 
@@ -40,7 +37,7 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public MediaServiceResult addBook(Book book) {
 
-        //no ISBN or invalide
+        //no ISBN or invalid
         if (book.getIsbn() == null || book.getIsbn().isEmpty() || !validISBN13(book.getIsbn())) {
             return MediaServiceResult.ISBN_INVALID;
         }
@@ -59,6 +56,7 @@ public class MediaServiceImpl implements MediaService {
 
         //change this to Persistence Layer
         final Medium medium = bookMap.put(book.getIsbn(), book);
+
 
         return MediaServiceResult.OK;
     }

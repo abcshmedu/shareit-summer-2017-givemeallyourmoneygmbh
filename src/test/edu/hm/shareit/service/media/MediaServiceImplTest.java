@@ -72,6 +72,7 @@ public class MediaServiceImplTest {
                 //OK
                 {new Book("Star Wars: The Old Republic - Revan (Star Wars: The Old Republic - Legends)   ", "Drew Karpyshyn  ", "9780345511355   "), MediaServiceResult.OK},
                 {new Book("My Little Pony: Fluttershy and the Fine Furry Friends Fair (My Little Pony Chapter Books)", "G. M. Berrow", "9780316277198"), MediaServiceResult.OK}, //ISBN-10 = 0316277193
+                {new Book("My Little Pony: Fluttershy and the Fine Furry Friends Fair (My Little Pony Chapter Books)", "G. M. Berrow", "978-0316277198"), MediaServiceResult.OK}, //ISBN-10 = 0316277193
 
         });
 

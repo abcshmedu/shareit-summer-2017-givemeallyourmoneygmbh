@@ -12,7 +12,7 @@ package edu.hm.shareit.model.media;
 public class Book extends Medium {
 
     private String author = null;
-    private String isbn13 = null;
+    private String isbn = null;
 
 
     /**
@@ -25,17 +25,18 @@ public class Book extends Medium {
     /** Creates a book with given parameters.
      * @param title Title of the book.
      * @param author author of the book.
-     * @param isbn13 isbn13 of the book.
+     * @param isbn isbn13 of the book.
      */
-    public Book(String title, String author, String isbn13) {
+    public Book(String title, String author, String isbn) {
         super(title);
 
         if (author != null) {
             this.author = author.trim();
         }
 
-        if (isbn13 != null) {
-            this.isbn13 = isbn13.trim();
+        if (isbn != null) {
+            this.isbn = isbn.trim();
+            this.isbn = this.isbn.replace("-","");
         }
     }
 
@@ -51,7 +52,7 @@ public class Book extends Medium {
      * @return isbn13.
      */
     public String getIsbn() {
-        return isbn13;
+        return isbn;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class Book extends Medium {
             return false;
         }
 
-        return isbn13 != null ? isbn13.equals(book.isbn13) : book.isbn13 == null;
+        return isbn != null ? isbn.equals(book.isbn) : book.isbn == null;
 
     }
 
@@ -80,7 +81,7 @@ public class Book extends Medium {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (isbn13 != null ? isbn13.hashCode() : 0);
+        result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
         return result;
     }
 
@@ -88,7 +89,7 @@ public class Book extends Medium {
     public String toString() {
         return "Book{"
                 + "author='" + author + '\''
-                + ", isbn13='" + isbn13 + '\''
+                + ", isbn='" + isbn + '\''
                 + "} " + super.toString();
     }
 }
