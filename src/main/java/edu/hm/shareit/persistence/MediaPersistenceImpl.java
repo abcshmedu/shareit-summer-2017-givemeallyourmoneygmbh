@@ -46,22 +46,30 @@ public class MediaPersistenceImpl implements MediaPersistence {
 
     @Override
     public void addBook(Book element) {
-        edu.hm.shareit.persistence.media.Book book = new edu.hm.shareit.persistence.media.Book();
-        book.setIsbn(element.getIsbn());
-        book.setAuthor(element.getAuthor());
-        book.setTitle(element.getTitle());
+        edu.hm.shareit.persistence.media.Book book = new edu.hm.shareit.persistence.media.Book(
+                element.getTitle(),
+                element.getIsbn(),
+                element.getAuthor());
+//        book.setIsbn(element.getIsbn());
+//        book.setAuthor(element.getAuthor());
+//        book.setTitle(element.getTitle());
 
         persist.add(book);
     }
 
     @Override
     public void addDisc(Disc element) {
-
-        edu.hm.shareit.persistence.media.Disc disc = new edu.hm.shareit.persistence.media.Disc();
-        disc.setBarcode(element.getBarcode());
-        disc.setDirector(element.getDirector());
-        disc.setTitle(element.getTitle());
-        disc.setFsk(element.getFsk());
+        //String title, String barcode, String director, int fsk
+        edu.hm.shareit.persistence.media.Disc disc = new edu.hm.shareit.persistence.media.Disc(
+                element.getTitle(),
+                element.getDirector(),
+                element.getDirector(),
+                element.getFsk()
+        );
+        //disc.setBarcode(element.getBarcode());
+        //disc.setDirector(element.getDirector());
+        //disc.setTitle(element.getTitle());
+        //disc.setFsk(element.getFsk());
 
         persist.add(disc);
 
@@ -96,21 +104,29 @@ public class MediaPersistenceImpl implements MediaPersistence {
     @Override
     public void updateBook(Book element) {
 
-        edu.hm.shareit.persistence.media.Book book = new edu.hm.shareit.persistence.media.Book();
-        book.setIsbn(element.getIsbn());
-        book.setAuthor(element.getAuthor());
-        book.setTitle(element.getTitle());
+        edu.hm.shareit.persistence.media.Book book = new edu.hm.shareit.persistence.media.Book(
+                element.getTitle(),
+                element.getIsbn(),
+                element.getAuthor());
+//        book.setIsbn(element.getIsbn());
+//        book.setAuthor(element.getAuthor());
+//        book.setTitle(element.getTitle());
 
         persist.update(book);
     }
 
     @Override
     public void updateDisc(Disc element) {
-        edu.hm.shareit.persistence.media.Disc disc = new edu.hm.shareit.persistence.media.Disc();
-        disc.setBarcode(element.getBarcode());
-        disc.setDirector(element.getDirector());
-        disc.setTitle(element.getTitle());
-        disc.setFsk(element.getFsk());
+        edu.hm.shareit.persistence.media.Disc disc = new edu.hm.shareit.persistence.media.Disc(
+                element.getTitle(),
+                element.getDirector(),
+                element.getDirector(),
+                element.getFsk()
+        );
+        //disc.setBarcode(element.getBarcode());
+        //disc.setDirector(element.getDirector());
+        //disc.setTitle(element.getTitle());
+        //disc.setFsk(element.getFsk());
 
         persist.update(disc);
 

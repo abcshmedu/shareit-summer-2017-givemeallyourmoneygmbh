@@ -5,6 +5,7 @@
 
 <hibernate-configuration>
 
+
     <session-factory>
 
         <property name="connection.url">jdbc:hsqldb:file:/Users/ivi/Documents/SS17/DI/shareit-summer-2017-givemeallyourmoneygmbh/shareit-db</property>
@@ -21,10 +22,14 @@
         <property name="hbm2ddl.auto">create</property>
         <property name="transaction.auto_close_session">true</property>
 
-        <mapping class="edu.hm.shareit.persistence.media.Medium" />
+        <mapping class="edu.hm.shareit.persistence.media.Disc" />
+        <mapping class="edu.hm.shareit.persistence.media.Book" />
+        <!--
+
         <mapping class="edu.hm.shareit.persistence.media.Book" />
         <mapping class="edu.hm.shareit.persistence.media.Disc" />
 
+        -->
 
 
     </session-factory>

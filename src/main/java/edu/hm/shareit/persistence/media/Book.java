@@ -1,7 +1,6 @@
 package edu.hm.shareit.persistence.media;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 /**
@@ -14,20 +13,31 @@ import java.io.Serializable;
  * System Properties Intel(R) Xeon(R) CPU E5-2660 0 @2.20GHz 2.19 GHz,4 Cores 14.0 GB RAM
  */
 @Entity
-@Table(name="TBook")
+//@Table(name="TBook")
+//@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public class Book extends Medium implements Serializable {
+public class Book  {
     //private static final long serialVersionUID = -10359522397308459L;
 
 
-
+    private static final long serialVersionUID = -10359522397308459L;
     @Id
-    @Column(name = "ISBN")
+    //@Column(name = "ISBN")
     private String isbn;
 
-    @Column(name = "AUTHOR")
+    //@Column(name = "AUTHOR")
     private String author;
 
+    @Column(name = "TITLE", length = 30)
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getIsbn() {
         return isbn;
@@ -43,5 +53,19 @@ public class Book extends Medium implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    protected Book(){}
+
+    public Book(String isbn, String author) {
+        this.isbn = isbn;
+        this.author = author;
+    }
+
+    public Book(String title, String isbn, String author) {
+
+        this.isbn = isbn;
+        this.author = author;
+        this.title = title;
     }
 }

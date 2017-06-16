@@ -1,5 +1,6 @@
 package edu.hm.shareit.persistence.media;
 
+
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -43,12 +44,20 @@ public class BasicsTest {
         Session entityManager = injector.getInstance(SessionFactory.class).getCurrentSession();
         Transaction tx = entityManager.beginTransaction();
 
-        //"Longbottom", "Neville", "48963745"
+
+
         Book book = new Book();
         book.setTitle("Neville");
         book.setAuthor("Me");
         book.setIsbn("978-1509304981");
 
+        Disc disc = new Disc();
+        disc.setTitle("Boooom");
+        disc.setDirector("You");
+        disc.setFsk(12);
+        disc.setBarcode("1234567890");
+
+        entityManager.persist(disc);
 
         entityManager.persist(book);
 
@@ -113,7 +122,7 @@ public class BasicsTest {
         //property does not need to be private but is case sensitive!
         String queryString = "from Book p where p.title='" + firstName  + "'";
         List<Book> list = entityManager.createQuery(queryString).list();
-//        entityManager.getCriteriaBuilder()
+
         assertEquals(1, list.size());
     }
 
@@ -122,32 +131,44 @@ public class BasicsTest {
      */
     @Test
     public void testFindLike() {
-        String queryString = "from Medium where title like '%evil%'";
+        String queryString = "from Book where title like '%evil%'";
         org.hibernate.query.Query query = entityManager.createQuery(queryString);
-        List<Medium> list = query.list();
+        List<Book> list = query.list();
         assertEquals(1, list.size());
     }
 
     @Test
     public void testLoadBook() {
+        //"978-1509304981"
         Book book = (Book) entityManager.get(Book.class, "978-1509304981");
         assertNotNull(book);
 
+    }
 
+    @Test
+    public void testLoadDisc() {
+        Disc disc = (Disc) entityManager.get(Disc.class, "1234567890");
+
+        assertNotNull(disc);
     }
 
     /**
      * Same as <code>testLoadLecture</code> but with closing entityManager
      * after the find operation has completed -- and before **referenced** fields are accessed.
      */
-    @Test(expected=org.hibernate.LazyInitializationException.class)
+    /*@Test(expected=org.hibernate.LazyInitializationException.class)
     public void testLazyLoading() {
-        /*Lecture lecture = (Lecture) entityManager.get(Lecture.class, lectureId);
+
+
+
+        //kein lazy loading
+
+        Lecture lecture = (Lecture) entityManager.get(Lecture.class, lectureId);
         assertNotNull(lecture);
         entityManager.close();
         List<Teacher> teachers = lecture.getTeachers();
-        assertEquals(2, teachers.size());*/
-    }
+        assertEquals(2, teachers.size());
+    }*/
 
     @Test
     public void testAllPersonsWithCriteria() {

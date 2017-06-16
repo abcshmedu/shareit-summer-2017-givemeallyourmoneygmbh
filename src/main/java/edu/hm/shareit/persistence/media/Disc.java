@@ -1,7 +1,6 @@
 package edu.hm.shareit.persistence.media;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Organization Hochschule Muenchen FK07
@@ -13,11 +12,13 @@ import java.io.Serializable;
  * System Properties Intel(R) Xeon(R) CPU E5-2660 0 @2.20GHz 2.19 GHz,4 Cores 14.0 GB RAM
  */
 @Entity
-@Table(name="TMedium")
+//@Table(name="TMedium")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public class Disc extends Medium  implements Serializable {
+public class Disc {
+    private static final long serialVersionUID = -5500885674631981243L;
+
     @Id
-    @Column(name = "BARCODE")
+    //@Column(name = "BARCODE")
     private String barcode;
 
     @Column(name = "DIRECTOR")
@@ -25,6 +26,19 @@ public class Disc extends Medium  implements Serializable {
 
     @Column(name = "FSK")
     private int fsk;
+
+
+    @Column(name = "TITLE", length = 30)
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
 
     public String getBarcode() {
         return barcode;
@@ -49,4 +63,18 @@ public class Disc extends Medium  implements Serializable {
     public void setFsk(int fsk) {
         this.fsk = fsk;
     }
+
+    public Disc(String barcode, String director, int fsk) {
+        this.barcode = barcode;
+        this.director = director;
+        this.fsk = fsk;
+    }
+
+    public Disc(String title, String barcode, String director, int fsk) {
+
+        this.barcode = barcode;
+        this.director = director;
+        this.fsk = fsk;
+    }
+    protected Disc() {}
 }
