@@ -4,9 +4,9 @@ import edu.hm.shareit.model.media.Book;
 import edu.hm.shareit.model.media.Disc;
 import edu.hm.shareit.model.media.Medium;
 import edu.hm.shareit.service.media.MediaService;
-import edu.hm.shareit.service.media.MediaServiceImpl;
 import edu.hm.shareit.service.media.MediaServiceResult;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,8 +26,9 @@ import javax.ws.rs.core.Response;
 public class MediaResource {
 
 
-    private MediaService mediaService = new MediaServiceImpl();
-
+    //private MediaService mediaService = new MediaServiceImpl();
+    @Inject
+    private MediaService mediaService;
 
 
     /**
@@ -251,7 +252,5 @@ public class MediaResource {
         }
         return response;
     }
-
-
 
 }

@@ -26,8 +26,7 @@ public class BasicsTest {
     private Session entityManager;
     private Transaction tx;
 
-    // dirty trick to store lecture's id for demonstration purposes
-    private static long lectureId;
+
 
     public BasicsTest() {
         injector.injectMembers(this);

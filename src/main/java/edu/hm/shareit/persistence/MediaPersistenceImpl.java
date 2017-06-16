@@ -3,6 +3,7 @@ package edu.hm.shareit.persistence;
 import edu.hm.shareit.model.media.Book;
 import edu.hm.shareit.model.media.Disc;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,8 @@ import java.util.List;
  */
 
 public class MediaPersistenceImpl implements MediaPersistence {
-    //@Inject
-    private Persistence persist = new PersistenceImpl();
+    @Inject
+    private Persistence persist;
 
     @Override
     public boolean existBook(String id) {

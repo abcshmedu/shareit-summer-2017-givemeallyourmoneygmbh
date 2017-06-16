@@ -3,9 +3,10 @@ package edu.hm.shareit.service.media;
 import edu.hm.shareit.model.media.Book;
 import edu.hm.shareit.model.media.Disc;
 import edu.hm.shareit.model.media.Medium;
+import edu.hm.shareit.persistence.MediaPersistence;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * MediaService implementation.
@@ -20,19 +21,25 @@ import java.util.Map;
 
 public class MediaServiceImpl implements MediaService {
 
-
+    @Inject
+    private MediaPersistence persistence; //= new MediaPersistenceImpl();
     //in der naechsten Aufgabe auslagern nach Persistence Layer
-    private static Map<String, Medium> bookMap = new HashMap<>();
+    //private static Map<String, Medium> bookMap = new HashMap<>();
 
-    private static Map<String, Medium> discMap =new HashMap<>();
+    //private static Map<String, Medium> discMap =new HashMap<>();
 
     /**
      * Default Constructor.
      */
+    /*@Inject
+    public MediaServiceImpl(MediaPersistence persistence) {
+        this.persistence = persistence;
+        //tokenService = new AuthenticationImpl();
+    }*/
     public MediaServiceImpl() {
 
-    }
 
+    }
 
     @Override
     public MediaServiceResult addBook(Book book) {
@@ -43,9 +50,18 @@ public class MediaServiceImpl implements MediaService {
         }
 
         //ISBN duplicate
-        if (bookMap.containsKey(book.getIsbn())) {
+        //Book oldBook = persistence.getBook(book.getIsbn());
+
+        //if(oldBook != null)
+//            return MediaServiceResult.ISBN_DUPLICATE;
+
+
+        if(persistence.existBook(book.getIsbn()))
             return MediaServiceResult.ISBN_DUPLICATE;
-        }
+
+//        if (bookMap.containsKey(book.getIsbn())) {
+//            return MediaServiceResult.ISBN_DUPLICATE;
+//        }
 
 
         //no auther or Title
@@ -55,7 +71,10 @@ public class MediaServiceImpl implements MediaService {
 
 
         //change this to Persistence Layer
-        final Medium medium = bookMap.put(book.getIsbn(), book);
+        //final Medium medium = bookMap.put(book.getIsbn(), book);
+
+        persistence.addBook(book);
+
 
 
         return MediaServiceResult.OK;
@@ -69,10 +88,15 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.BARCODE_INVALID;
         }
 
-        //barcode duplicate
-        if (discMap.containsKey(disc.getBarcode())) {
+        //Disc oldDisc = persistence.getDisc(disc.getBarcode());
+
+        if(persistence.existDisc(disc.getBarcode()))
             return MediaServiceResult.BARCODE_DUPLICATE;
-        }
+
+        //barcode duplicate
+        //if (discMap.containsKey(disc.getBarcode())) {
+        //    return MediaServiceResult.BARCODE_DUPLICATE;
+        //}
 
 
         //no director or Title etc
@@ -81,7 +105,8 @@ public class MediaServiceImpl implements MediaService {
         }
 
         //change this to Persistence Layer
-        final Medium medium = discMap.put(disc.getBarcode(), disc);
+        //final Medium medium = discMap.put(disc.getBarcode(), disc);
+        persistence.addDisc(disc);
 
         return MediaServiceResult.OK;
     }
@@ -89,34 +114,47 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public Medium getBook(String isbn) {
-        if (bookMap.containsKey(isbn)) {
-            return bookMap.get(isbn);
-        }
 
-        return null;
+        return persistence.getBook(isbn);
+        //if (bookMap.containsKey(isbn)) {
+        //    return bookMap.get(isbn);
+        //}
     }
 
     @Override
     public Medium[] getBooks() {
-        final Medium[] media = bookMap.values().toArray(new Medium[0]);
 
-        return media;
+        List<Book> list = persistence.getAllBooks();
+        return list.toArray(new Book[list.size()]);
+
+        //final Book[] media =  persistence.getAllBooks();
+        //final Medium[] media = bookMap.values().toArray(new Medium[0]);
+
+
     }
 
     @Override
     public Medium[] getDiscs() {
-        final Medium[] media = discMap.values().toArray(new Medium[0]);
+        //final Disc[] media =  persistence.getDiscs();
+        //final Medium[] media = discMap.values().toArray(new Medium[0]);
+        //return media;
 
-        return media;
+        List<Disc> list = persistence.getAllDiscs();
+        return list.toArray(new Disc[list.size()]);
+
+
     }
 
     @Override
     public Medium getDisc(String barcode) {
+        /*
         if (discMap.containsKey(barcode)) {
             return discMap.get(barcode);
         }
-
         return null;
+        */
+
+        return persistence.getDisc(barcode);
     }
 
 
@@ -135,10 +173,21 @@ public class MediaServiceImpl implements MediaService {
         }
 
         //ISBN
+        /*
         if (!bookMap.containsKey(book.getIsbn())) {
             return MediaServiceResult.ISBN_NOTFOUND;
         }
+        */
 
+        //ISBN
+        /*
+        Book oldBook = persistence.getBook(book.getIsbn());
+        if(oldBook == null)
+            return MediaServiceResult.ISBN_NOTFOUND;
+        */
+
+        if(!persistence.existBook(book.getIsbn()))
+            return MediaServiceResult.ISBN_NOTFOUND;
 
         //no author or Title
         if (book.getAuthor() == null || book.getTitle() == null || book.getAuthor().isEmpty() || book.getTitle().isEmpty()) {
@@ -147,7 +196,8 @@ public class MediaServiceImpl implements MediaService {
 
 
         //change this to Persistence Layer
-        bookMap.replace(book.getIsbn(), book);
+        //bookMap.replace(book.getIsbn(), book);
+        persistence.updateBook(book);
 
         return MediaServiceResult.OK;
     }
@@ -165,11 +215,22 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.BARCODE_CONFLICT;
         }
 
-        //ISBN
+
+        /*
         if (!discMap.containsKey(disc.getBarcode())) {
             return MediaServiceResult.BARCODE_NOTFOUND;
         }
+        */
 
+        //BARCODE
+        if(!persistence.existDisc(disc.getBarcode()))
+            return MediaServiceResult.BARCODE_NOTFOUND;
+
+        /*
+        Disc oldDisc = persistence.getDisc(disc.getBarcode());
+        if(oldDisc == null)
+            return MediaServiceResult.BARCODE_NOTFOUND;
+        */
 
         //no author or Title
         if (disc.getDirector() == null || disc.getTitle() == null || disc.getTitle().isEmpty() || disc.getDirector().isEmpty() || disc.getFsk() <0 ) {
@@ -178,7 +239,8 @@ public class MediaServiceImpl implements MediaService {
 
 
         //change this to Persistence Layer
-        discMap.replace(disc.getBarcode(), disc);
+        //discMap.replace(disc.getBarcode(), disc);
+        persistence.updateDisc(disc);
 
         return MediaServiceResult.OK;
     }
