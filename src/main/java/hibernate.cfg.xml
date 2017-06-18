@@ -8,7 +8,11 @@
 
     <session-factory>
 
+        <!--
         <property name="connection.url">jdbc:hsqldb:file:/Users/ivi/Documents/SS17/DI/shareit-summer-2017-givemeallyourmoneygmbh/shareit-db</property>
+        -->
+
+        <property name="connection.url">jdbc:hsqldb:file:./shareit-db</property>
         <property name="connection.shutdown">true</property>
         <property name="connection.write_delay">false</property>
 
