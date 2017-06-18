@@ -16,17 +16,6 @@ import java.util.List;
  */
 
 public interface MediaPersistence {
-/*
-    MediaServiceResult addBook(edu.hm.shareit.model.media.Book book);
-    MediaServiceResult addDisc(edu.hm.shareit.model.media.Disc disc);
-    edu.hm.shareit.model.media.Book getBook(String isbn);
-    edu.hm.shareit.model.media.Book[] getBooks();
-    edu.hm.shareit.model.media.Disc[] getDiscs();
-    edu.hm.shareit.model.media.Disc getDisc(String barcode);
-    edu.hm.shareit.model.media.Book updateBook(edu.hm.shareit.model.media.Book book);
-    edu.hm.shareit.model.media.Disc updateDisc(edu.hm.shareit.model.media.Disc disc);
-
-*/
 
     boolean existBook(String id);
     boolean existDisc(String id);

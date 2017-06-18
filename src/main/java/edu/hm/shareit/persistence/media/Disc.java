@@ -12,13 +12,11 @@ import javax.persistence.*;
  * System Properties Intel(R) Xeon(R) CPU E5-2660 0 @2.20GHz 2.19 GHz,4 Cores 14.0 GB RAM
  */
 @Entity
-//@Table(name="TMedium")
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class Disc {
     private static final long serialVersionUID = -5500885674631981243L;
 
     @Id
-    //@Column(name = "BARCODE")
     private String barcode;
 
     @Column(name = "DIRECTOR")

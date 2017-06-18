@@ -32,21 +32,9 @@ class GuiceModule extends AbstractModule {
 
 public class PersistenceImpl implements Persistence{
 
-    //private static final Injector injector = ;
+
     @Inject
     private SessionFactory sessionFactory ;
-    //@Inject
-    //private SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
-    //@Inject
-    //private SessionFactory sessionFactory;
-
-    /*private static final Injector injector = Guice.createInjector(new GuiceModule());
-    @Inject
-    private SessionFactory sessionFactory ;
-
-    public PersistenceImpl() {
-        injector.injectMembers(this);
-    }*/
 
     @Override
     public <T, K  extends Serializable> boolean exist(Class<T> tClass, K key) {

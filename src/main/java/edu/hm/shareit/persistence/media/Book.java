@@ -13,19 +13,13 @@ import javax.persistence.*;
  * System Properties Intel(R) Xeon(R) CPU E5-2660 0 @2.20GHz 2.19 GHz,4 Cores 14.0 GB RAM
  */
 @Entity
-//@Table(name="TBook")
-//@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class Book  {
-    //private static final long serialVersionUID = -10359522397308459L;
-
 
     private static final long serialVersionUID = -10359522397308459L;
     @Id
-    //@Column(name = "ISBN")
     private String isbn;
 
-    //@Column(name = "AUTHOR")
     private String author;
 
     @Column(name = "TITLE", length = 30)

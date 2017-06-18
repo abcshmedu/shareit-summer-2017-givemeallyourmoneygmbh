@@ -41,12 +41,7 @@ public class ShareitServletContextListener extends GuiceServletContextListener {
             bind(Persistence.class).to(PersistenceImpl.class);
             bind(MediaPersistence.class).to(MediaPersistenceImpl.class);
             bind(MediaService.class).to(MediaServiceImpl.class);
-            //bind(AuthenticationService.class).to(AuthenticationServiceImpl.class);
 
-            //bind(SessionFactory.class).toInstance(new Configuration().configure().buildSessionFactory());
-            //bind(SessionFactory.class).toInstance(new Configuration().configure().buildSessionFactory());
-            //bind(SessionFactory.class).toInstance(new Configuration().configure().buildSessionFactory());
-            //bind(SessionFactory.class).toInstance(new Configuration().configure().buildSessionFactory());
         }
     });
 
