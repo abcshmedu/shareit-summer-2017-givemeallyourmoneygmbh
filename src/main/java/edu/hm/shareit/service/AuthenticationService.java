@@ -16,7 +16,6 @@ import java.security.NoSuchAlgorithmException;
 public interface AuthenticationService {
 
     boolean validateToken(String token) throws UnsupportedEncodingException, NoSuchAlgorithmException;
-    //String authorizeUser(UserCredentials user) throws UnsupportedEncodingException, NoSuchAlgorithmException;
     void removeToken(String token);
 
 }

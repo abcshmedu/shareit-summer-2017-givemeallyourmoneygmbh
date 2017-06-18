@@ -8,6 +8,7 @@ import edu.hm.shareit.persistence.MediaPersistenceImpl;
 import edu.hm.shareit.persistence.Persistence;
 import edu.hm.shareit.persistence.PersistenceImpl;
 import edu.hm.shareit.service.media.MediaService;
+import edu.hm.shareit.service.media.MediaServiceImpl;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.ServiceLocatorProvider;
 import org.hibernate.SessionFactory;
@@ -36,7 +37,7 @@ public class GuiceInjectionTest implements Feature {
         protected void configure() {
             bind(Persistence.class).toInstance(mock(PersistenceImpl.class));
             bind(MediaPersistence.class).toInstance(mock(MediaPersistenceImpl.class));
-            bind(MediaService.class).toInstance(mock(MediaService.class));
+            bind(MediaService.class).toInstance(mock(MediaServiceImpl.class));
             bind(SessionFactory.class).toInstance(
                     new Configuration()
                             .configure()
